@@ -1,0 +1,14 @@
+name: Start My Codespace
+on:
+  workflow_dispatch:
+
+jobs:
+  start:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wake up Codespace
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/user/codespaces/automatic-winner-r4wg4r4vx55q2w7vp/start
