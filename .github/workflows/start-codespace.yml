@@ -2,13 +2,20 @@ name: Start My Codespace
 on:
   workflow_dispatch:
 
+permissions:
+  codespaces: write
+
 jobs:
   start:
     runs-on: ubuntu-latest
     steps:
-      - name: Wake up Codespace
+      - name: Wake up and Get SSH Details
         run: |
-          curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/user/codespaces/automatic-winner-r4wg4r4vx55q2w7vp/start
+          # 1. מעירים את המכונה
+          curl -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github+json" https://api.github.com/user/codespaces/automatic-winner-r4wg4r4vx55q2w7vp/start
+          
+          # המתנה קלה שהמכונה תעלה
+          sleep 10
+          
+          # 2. שולפים את פרטי ה-SSH האמיתיים שלה ומדפיסים למסך
+          curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github+json" https://api.github.com/user/codespaces/automatic-winner-r4wg4r4vx55q2w7vp | jq '.connection_properties'
